@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Incognito Space</title>
+    <title>Incognito Space | Сплетни Школы №43</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16 48C16 39.1634 23.1634 32 32 32C40.8366 32 48 39.1634 48 48H16Z' fill='%23ff2e63'/%3E%3Cpath d='M18 46C18 38.268 24.268 32 32 32C39.732 32 46 38.268 46 46H18Z' stroke='%23ff2e63' stroke-width='2'/%3E%3Ccircle cx='32' cy='24' r='8' stroke='%23ff2e63' stroke-width='2'/%3E%3Ccircle cx='29' cy='24' r='1.5' fill='%23eaeaea'/%3E%3Ccircle cx='35' cy='24' r='1.5' fill='%23eaeaea'/%3E%3C/svg%3E" type="image/svg+xml">
+    
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -30,7 +32,7 @@
             padding: 20px;
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 10px;
             border-bottom: 2px solid var(--accent);
             position: sticky;
             top: 0;
@@ -41,12 +43,13 @@
             background: transparent;
             border: 1px solid var(--secondary);
             color: var(--secondary);
-            padding: 10px 20px;
+            padding: 8px 15px;
             cursor: pointer;
             border-radius: 5px;
             transition: 0.3s;
             text-transform: uppercase;
             font-weight: bold;
+            font-size: 11px;
         }
 
         nav button:hover, nav button.active {
@@ -57,7 +60,7 @@
         /* Контент */
         .container {
             max-width: 800px;
-            margin: 40px auto;
+            margin: 20px auto;
             padding: 0 20px;
             flex-grow: 1;
         }
@@ -75,7 +78,6 @@
 
         h2 { color: var(--accent); }
 
-        /* Чат / Форма */
         .chat-box {
             background: var(--card-bg);
             border: 1px solid #333;
@@ -84,7 +86,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        textarea, input {
+        textarea, input, select {
             width: 100%;
             background: #25252d;
             border: 1px solid #444;
@@ -109,9 +111,15 @@
 
         .btn-send:hover { opacity: 0.8; transform: translateY(-2px); }
 
+        /* Анимации */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 5px rgba(0, 255, 136, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 136, 0); }
         }
 
         footer { text-align: center; padding: 20px; font-size: 0.8rem; opacity: 0.5; }
@@ -119,101 +127,103 @@
 </head>
 <body>
 
-<nav>
-    <button onclick="showTab('gossip')" id="btn-gossip" class="active">Сплетни и Рассказы</button>
-    <button onclick="showTab('couples')" id="btn-couples">Пары в отношениях</button>
-    <button onclick="showTab('admin')" id="btn-admin">Связаться с Admin</button>
-</nav>
-<div style="text-align: center; margin: 30px 0; padding: 15px; background: rgba(0, 209, 255, 0.05); border-radius: 15px; border: 1px solid #00d1ff;">
-    <p style="color: #00d1ff; margin-bottom: 15px; font-weight: bold; text-transform: uppercase;">📣 Разослать эту дичь друзьям:</p>
-    
-    <a href="https://t.me/share/url?url=https://ggggmaster.github.io/sekrets/&text=Смотри какие сплетни тут всплыли! 👀" 
-       target="_blank" style="background: #0088cc; color: white; padding: 10px 20px; text-decoration: none; border-radius: 8px; margin: 5px; display: inline-block;">
-       Telegram
-    </a>
-
-    <a href="https://api.whatsapp.com/send?text=Смотри какие сплетни тут всплыли! 👀 https://ggggmaster.github.io/sekrets/" 
-       target="_blank" style="background: #25d366; color: white; padding: 10px 20px; text-decoration: none; border-radius: 8px; margin: 5px; display: inline-block;">
-       WhatsApp
-    </a>
+<div id="online-status" style="position: fixed; bottom: 20px; left: 20px; z-index: 1000; background: rgba(0, 0, 0, 0.85); border: 1px solid #00ff88; padding: 6px 12px; border-radius: 20px; font-size: 11px; font-family: sans-serif; box-shadow: 0 0 10px rgba(0, 255, 136, 0.2);">
+    <span style="height: 8px; width: 8px; background-color: #00ff88; border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse 1.5s infinite;"></span>
+    <span style="color: #00ff88; font-weight: bold;">LIVE: </span>
+    <span id="online-count" style="color: white;">12</span>
+    <span style="color: #888;"> читают</span>
 </div>
+
+<nav>
+    <button onclick="showTab('gossip')" id="btn-gossip" class="active">Сплетни</button>
+    <button onclick="showTab('couples')" id="btn-couples">Пары</button>
+    <button onclick="showTab('admin')" id="btn-admin">Написать Админу</button>
+</nav>
+
 <div class="container">
     
     <div id="gossip" class="tab-content active">
         <h2>Последние истории</h2>
         <div class="card">
-  
-        </div>
-        <div class="card">
-  
+            <p><strong>Админ:</strong> Сайт запущен! Жду ваших сочных историй через вкладку "Написать Админу".</p>
         </div>
     </div>
 
     <div id="couples" class="tab-content">
         <h2>Рейтинг и новости пар</h2>
         <div class="card">
-     
-        </div>
-        <div class="card">
-    
+            <p>Тут будет информация о тех, кто сошелся или расстался...</p>
         </div>
     </div>
 
-  <div id="admin" class="tab-content">
-    <div class="chat-box">
-        <h2>Анонимный чат с админом</h2>
-        <p style="font-size: 0.8rem; color: var(--secondary); margin-bottom: 20px;">
-            Ваше сообщение уйдет напрямую админу. Никто, кроме него, не увидит ваш текст и данные.
-        </p>
-        
-        <form action="https://formspree.io/f/xojnzeqe" method="POST">
-            <label style="font-size: 0.8rem;">Кто вы? (Можно оставить "Аноним")</label>
-            <input type="text" name="nickname" value="Аноним" required>
+    <div id="admin" class="tab-content">
+        <div class="chat-box">
+            <h2>Анонимный чат</h2>
+            <p style="font-size: 0.8rem; color: var(--secondary); margin-bottom: 20px;">
+                Ваше сообщение уйдет напрямую админу. Никто другой его не увидит.
+            </p>
             
-            <label style="font-size: 0.8rem;">Тип новости</label>
-            <select name="type" style="width: 100%; background: #25252d; border: 1px solid #444; color: white; padding: 12px; margin: 10px 0; border-radius: 8px;">
-                <option value="spletni">Сплетня / История</option>
-                <option value="couples">Про пары</option>
-                <option value="admin-msg">Просто вопрос админу</option>
-            </select>
-
-            <label style="font-size: 0.8rem;">Текст сообщения</label>
-            <textarea name="message" rows="6" placeholder="Пиши всё как есть, не стесняйся..." required></textarea>
-            
-            <input type="hidden" name="_subject" value="Новая сплетня с сайта!">
-            
-            <button type="submit" class="btn-send">ОТПРАВИТЬ АДМИНУ</button>
-        </form>
+            <form action="https://formspree.io/f/xojnzeqe" method="POST">
+                <input type="text" name="nickname" value="Аноним" placeholder="Ваш ник">
+                <select name="type">
+                    <option value="spletni">Сплетня / История</option>
+                    <option value="couples">Про пары</option>
+                    <option value="admin-msg">Вопрос админу</option>
+                </select>
+                <textarea name="message" rows="6" placeholder="Пиши всё как есть..." required></textarea>
+                <input type="hidden" name="_subject" value="Новая сплетня!">
+                <button type="submit" class="btn-send">ОТПРАВИТЬ СЕКРЕТ</button>
+            </form>
+        </div>
     </div>
-</div>
+
+    <div style="text-align: center; margin-top: 40px; padding: 20px; background: rgba(0, 209, 255, 0.05); border-radius: 15px; border: 1px solid #00d1ff;">
+        <p style="color: #00d1ff; margin-bottom: 15px; font-weight: bold; font-size: 12px; text-transform: uppercase;">📣 Скинуть ссылку друзьям:</p>
+        <a href="https://t.me/share/url?url=https://ggggmaster.github.io/sekrets/&text=Смотри какие сплетни тут всплыли! 👀" target="_blank" style="background: #0088cc; color: white; padding: 8px 15px; text-decoration: none; border-radius: 6px; margin: 5px; display: inline-block; font-size: 13px;">Telegram</a>
+        <a href="https://api.whatsapp.com/send?text=Смотри какие сплетни тут всплыли! 👀 https://ggggmaster.github.io/sekrets/" target="_blank" style="background: #25d366; color: white; padding: 8px 15px; text-decoration: none; border-radius: 6px; margin: 5px; display: inline-block; font-size: 13px;">WhatsApp</a>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px; opacity: 0.6; font-size: 11px;">
+        👁 Просмотров: <span id="visit-count" style="color: var(--accent);">...</span>
+    </div>
 
 </div>
 
 <footer>
-    &copy; 2026 Инкогнито Портал
-            сплетни школы №43
+    &copy; 2026 Инкогнито Портал | Сплетни Школы №43
 </footer>
 
 <script>
+    // Переключение вкладок
     function showTab(tabId) {
-        // Скрываем все вкладки
-        document.querySelectorAll('.tab-content').forEach(tab => {
-            tab.classList.remove('active');
-        });
-        // Убираем активный класс с кнопок
-        document.querySelectorAll('nav button').forEach(btn => {
-            btn.classList.remove('active');
-        });
-        
-        // Показываем нужную
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
         document.getElementById(tabId).classList.add('active');
         document.getElementById('btn-' + tabId).classList.add('active');
     }
+
+    // Живой онлайн (рандом от 7 до 18)
+    function updateOnline() {
+        const countElement = document.getElementById('online-count');
+        let currentCount = parseInt(countElement.innerText);
+        let change = Math.floor(Math.random() * 3) - 1;
+        let newCount = currentCount + change;
+        if (newCount < 7) newCount = 7;
+        if (newCount > 18) newCount = 18;
+        countElement.innerText = newCount;
+    }
+    setInterval(updateOnline, 4000);
+
+    // Счетчик посещений (через бесплатный API)
+    fetch('https://api.countapi.xyz/hit/ggggmaster-school43/visits')
+        .then(res => res.json())
+        .then(res => {
+            document.getElementById('visit-count').innerText = res.value || '124';
+        })
+        .catch(() => {
+            document.getElementById('visit-count').innerText = Math.floor(Math.random() * 100) + 50;
+        });
 </script>
 
 </body>
-
 </html>
-
-
-
