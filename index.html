@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Incognito Space | Сплетни Школы №43</title>
+    
     <link rel="icon" href="data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16 48C16 39.1634 23.1634 32 32 32C40.8366 32 48 39.1634 48 48H16Z' fill='%23ff2e63'/%3E%3Cpath d='M18 46C18 38.268 24.268 32 32 32C39.732 32 46 38.268 46 46H18Z' stroke='%23ff2e63' stroke-width='2'/%3E%3Ccircle cx='32' cy='24' r='8' stroke='%23ff2e63' stroke-width='2'/%3E%3Ccircle cx='29' cy='24' r='1.5' fill='%23eaeaea'/%3E%3Ccircle cx='35' cy='24' r='1.5' fill='%23eaeaea'/%3E%3C/svg%3E" type="image/svg+xml">
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
@@ -24,15 +25,16 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            scroll-behavior: smooth;
         }
 
         /* Навигация */
         nav {
             background: var(--card-bg);
-            padding: 20px;
+            padding: 15px;
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
             border-bottom: 2px solid var(--accent);
             position: sticky;
             top: 0;
@@ -43,13 +45,13 @@
             background: transparent;
             border: 1px solid var(--secondary);
             color: var(--secondary);
-            padding: 8px 15px;
+            padding: 8px 12px;
             cursor: pointer;
-            border-radius: 5px;
+            border-radius: 6px;
             transition: 0.3s;
             text-transform: uppercase;
             font-weight: bold;
-            font-size: 11px;
+            font-size: 10px;
         }
 
         nav button:hover, nav button.active {
@@ -59,31 +61,48 @@
 
         /* Контент */
         .container {
-            max-width: 800px;
+            max-width: 600px;
             margin: 20px auto;
-            padding: 0 20px;
+            padding: 0 15px;
             flex-grow: 1;
         }
 
         .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeIn 0.5s ease; }
+        .tab-content.active { display: block; animation: fadeIn 0.4s ease; }
 
         .card {
             background: var(--card-bg);
-            padding: 20px;
+            padding: 18px;
             border-radius: 12px;
             margin-bottom: 20px;
             border-left: 4px solid var(--accent);
+            position: relative;
         }
 
-        h2 { color: var(--accent); }
+        /* Лайки под сплетнями */
+        .reactions {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            border-top: 1px solid #333;
+            padding-top: 10px;
+        }
+        .react-btn {
+            background: none;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+        .react-btn:hover { color: var(--accent); }
 
+        /* Форма анонимки */
         .chat-box {
             background: var(--card-bg);
             border: 1px solid #333;
             border-radius: 15px;
             padding: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         textarea, input, select {
@@ -92,9 +111,10 @@
             border: 1px solid #444;
             color: white;
             padding: 12px;
-            margin: 10px 0;
+            margin: 8px 0;
             border-radius: 8px;
             box-sizing: border-box;
+            font-family: inherit;
         }
 
         .btn-send {
@@ -106,123 +126,171 @@
             border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
-            transition: 0.3s;
+            margin-top: 10px;
         }
 
-        .btn-send:hover { opacity: 0.8; transform: translateY(-2px); }
+        /* Индикатор онлайна */
+        #online-status {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.85);
+            border: 1px solid #00ff88;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
+        }
 
-        /* Анимации */
+        /* Кнопка Наверх */
+        #backToTop {
+            position: fixed;
+            bottom: 70px;
+            right: 20px;
+            background: var(--accent);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            font-size: 20px;
+            z-index: 999;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
         @keyframes pulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 5px rgba(0, 255, 136, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 136, 0); }
+            0% { transform: scale(0.95); opacity: 0.7; }
+            50% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.7; }
         }
 
-        footer { text-align: center; padding: 20px; font-size: 0.8rem; opacity: 0.5; }
+        footer { text-align: center; padding: 30px; font-size: 0.7rem; opacity: 0.4; }
     </style>
 </head>
 <body>
 
-<div id="online-status" style="position: fixed; bottom: 20px; left: 20px; z-index: 1000; background: rgba(0, 0, 0, 0.85); border: 1px solid #00ff88; padding: 6px 12px; border-radius: 20px; font-size: 11px; font-family: sans-serif; box-shadow: 0 0 10px rgba(0, 255, 136, 0.2);">
+<div id="online-status">
     <span style="height: 8px; width: 8px; background-color: #00ff88; border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse 1.5s infinite;"></span>
     <span style="color: #00ff88; font-weight: bold;">LIVE: </span>
-    <span id="online-count" style="color: white;">12</span>
-    <span style="color: #888;"> читают</span>
+    <span id="online-count" style="color: white;">14</span>
 </div>
+
+<a href="#" id="backToTop">↑</a>
 
 <nav>
     <button onclick="showTab('gossip')" id="btn-gossip" class="active">Сплетни</button>
     <button onclick="showTab('couples')" id="btn-couples">Пары</button>
-    <button onclick="showTab('admin')" id="btn-admin">Написать Админу</button>
+    <button onclick="showTab('admin')" id="btn-admin">Анонимка</button>
 </nav>
 
 <div class="container">
     
     <div id="gossip" class="tab-content active">
-        <h2>Последние истории</h2>
+        <h2>Свежая дичь</h2>
+        
         <div class="card">
-            <p><strong>Админ:</strong> Сайт запущен! Жду ваших сочных историй через вкладку "Написать Админу".</p>
+            <p><strong>Админ:</strong> Код обновлен! Добавлены лайки, онлайн и кнопка быстрой отправки ссылки. Пользуйтесь!</p>
+            <div class="reactions">
+                <button class="react-btn">🔥 12</button>
+                <button class="react-btn">😱 4</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <p><strong>Аноним:</strong> Говорят, что скоро будут новости про 10-й "Б"... Ждем подробностей.</p>
+            <div class="reactions">
+                <button class="react-btn" onclick="this.innerText='👍 1'">👍 0</button>
+                <button class="react-btn" onclick="this.innerText='👎 1'">👎 0</button>
+            </div>
         </div>
     </div>
 
     <div id="couples" class="tab-content">
-        <h2>Рейтинг и новости пар</h2>
+        <h2>Кто с кем?</h2>
         <div class="card">
-            <p>Тут будет информация о тех, кто сошелся или расстался...</p>
+            <p>Пока тут тихо... Присылай инфу про пары в анонимку!</p>
         </div>
     </div>
 
     <div id="admin" class="tab-content">
         <div class="chat-box">
-            <h2>Анонимный чат</h2>
-            <p style="font-size: 0.8rem; color: var(--secondary); margin-bottom: 20px;">
-                Ваше сообщение уйдет напрямую админу. Никто другой его не увидит.
-            </p>
-            
+            <h2>Написать секрет</h2>
             <form action="https://formspree.io/f/xojnzeqe" method="POST">
-                <input type="text" name="nickname" value="Аноним" placeholder="Ваш ник">
+                <input type="text" name="nickname" value="Аноним">
                 <select name="type">
-                    <option value="spletni">Сплетня / История</option>
+                    <option value="spletni">Сплетня</option>
                     <option value="couples">Про пары</option>
-                    <option value="admin-msg">Вопрос админу</option>
+                    <option value="admin">Вопрос</option>
                 </select>
-                <textarea name="message" rows="6" placeholder="Пиши всё как есть..." required></textarea>
-                <input type="hidden" name="_subject" value="Новая сплетня!">
-                <button type="submit" class="btn-send">ОТПРАВИТЬ СЕКРЕТ</button>
+                <textarea name="message" rows="5" placeholder="Расскажи всё..." required></textarea>
+                <button type="submit" class="btn-send">ОТПРАВИТЬ АНОНИМНО</button>
             </form>
         </div>
     </div>
 
     <div style="text-align: center; margin-top: 40px; padding: 20px; background: rgba(0, 209, 255, 0.05); border-radius: 15px; border: 1px solid #00d1ff;">
-        <p style="color: #00d1ff; margin-bottom: 15px; font-weight: bold; font-size: 12px; text-transform: uppercase;">📣 Скинуть ссылку друзьям:</p>
-        <a href="https://t.me/share/url?url=https://ggggmaster.github.io/sekrets/&text=Смотри какие сплетни тут всплыли! 👀" target="_blank" style="background: #0088cc; color: white; padding: 8px 15px; text-decoration: none; border-radius: 6px; margin: 5px; display: inline-block; font-size: 13px;">Telegram</a>
-        <a href="https://api.whatsapp.com/send?text=Смотри какие сплетни тут всплыли! 👀 https://ggggmaster.github.io/sekrets/" target="_blank" style="background: #25d366; color: white; padding: 8px 15px; text-decoration: none; border-radius: 6px; margin: 5px; display: inline-block; font-size: 13px;">WhatsApp</a>
+        <p style="color: #00d1ff; margin-bottom: 12px; font-weight: bold; font-size: 11px;">РАЗОСЛАТЬ ССЫЛКУ:</p>
+        <a href="https://t.me/share/url?url=https://ggggmaster.github.io/sekrets/&text=Тут самые жесткие сплетни школы! 👀" target="_blank" style="background: #0088cc; color: white; padding: 8px 12px; text-decoration: none; border-radius: 6px; margin: 3px; display: inline-block; font-size: 12px;">TG</a>
+        <a href="https://api.whatsapp.com/send?text=Смотри! https://ggggmaster.github.io/sekrets/" target="_blank" style="background: #25d366; color: white; padding: 8px 12px; text-decoration: none; border-radius: 6px; margin: 3px; display: inline-block; font-size: 12px;">WA</a>
+        <button onclick="copyLink()" style="background: #444; color: white; padding: 8px 12px; border: none; border-radius: 6px; margin: 3px; cursor: pointer; font-size: 12px;">Копировать URL</button>
     </div>
 
-    <div style="text-align: center; margin-top: 20px; opacity: 0.6; font-size: 11px;">
-        👁 Просмотров: <span id="visit-count" style="color: var(--accent);">...</span>
+    <div style="text-align: center; margin-top: 20px; opacity: 0.5; font-size: 10px;">
+        👁 Всего просмотров: <span id="visit-count">...</span>
     </div>
 
 </div>
 
 <footer>
-    &copy; 2026 Инкогнито Портал | Сплетни Школы №43
+    &copy; 2026 Инкогнито Портал | Школа №43
 </footer>
 
 <script>
-    // Переключение вкладок
+    // Табы
     function showTab(tabId) {
         document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
         document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
         document.getElementById(tabId).classList.add('active');
         document.getElementById('btn-' + tabId).classList.add('active');
+        window.scrollTo(0,0);
     }
 
-    // Живой онлайн (рандом от 7 до 18)
-    function updateOnline() {
-        const countElement = document.getElementById('online-count');
-        let currentCount = parseInt(countElement.innerText);
-        let change = Math.floor(Math.random() * 3) - 1;
-        let newCount = currentCount + change;
-        if (newCount < 7) newCount = 7;
-        if (newCount > 18) newCount = 18;
-        countElement.innerText = newCount;
-    }
-    setInterval(updateOnline, 4000);
+    // Рандомный онлайн
+    setInterval(() => {
+        let el = document.getElementById('online-count');
+        let count = parseInt(el.innerText);
+        let rand = Math.floor(Math.random() * 3) - 1;
+        let final = count + rand;
+        el.innerText = (final < 5) ? 6 : (final > 25) ? 24 : final;
+    }, 5000);
 
-    // Счетчик посещений (через бесплатный API)
-    fetch('https://api.countapi.xyz/hit/ggggmaster-school43/visits')
-        .then(res => res.json())
-        .then(res => {
-            document.getElementById('visit-count').innerText = res.value || '124';
-        })
-        .catch(() => {
-            document.getElementById('visit-count').innerText = Math.floor(Math.random() * 100) + 50;
-        });
+    // Счетчик
+    fetch('https://api.countapi.xyz/hit/ggggmaster-sekrets/visits').then(r => r.json()).then(r => {
+        document.getElementById('visit-count').innerText = r.value || '241';
+    }).catch(() => document.getElementById('visit-count').innerText = '158');
+
+    // Кнопка Наверх
+    window.onscroll = function() {
+        let btn = document.getElementById("backToTop");
+        if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+            btn.style.display = "flex";
+        } else {
+            btn.style.display = "none";
+        }
+    };
+
+    // Копирование ссылки
+    function copyLink() {
+        navigator.clipboard.writeText('https://ggggmaster.github.io/sekrets/');
+        alert('Ссылка скопирована! Скидывай её в чаты.');
+    }
 </script>
 
 </body>
