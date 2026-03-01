@@ -130,37 +130,50 @@
     <div id="gossip" class="tab-content active">
         <h2>Последние истории</h2>
         <div class="card">
-       
+            <p><strong>Аноним:</strong> Слышали, что в 3-м подъезде вчера происходило? Кажется, кто-то переезжает в спешке...</p>
         </div>
         <div class="card">
-      <div class="card">
-  
-</div>
+            <p><strong>История №42:</strong> Один раз я забыл ключи, и мне пришлось лезть через балкон, но я перепутал этаж...</p>
         </div>
     </div>
 
     <div id="couples" class="tab-content">
         <h2>Рейтинг и новости пар</h2>
         <div class="card">
-    
+            <p>🔥 <strong>Максим и Алина:</strong> Снова вместе? Видели их вчера в парке.</p>
         </div>
         <div class="card">
-          
+            <p>💔 <strong>Игорь и Света:</strong> Кажется, всё официально закончено. Фото удалены.</p>
         </div>
     </div>
 
     <div id="admin" class="tab-content">
-        <div class="chat-box">
-            <h2>Написать админу</h2>
-            <p style="font-size: 0.9rem; margin-bottom: 20px;">Отправьте свою сплетню или историю. Она появится на сайте после модерации. Полная анонимность гарантирована.</p>
+    <div class="chat-box">
+        <h2>Анонимный чат с админом</h2>
+        <p style="font-size: 0.8rem; color: var(--secondary); margin-bottom: 20px;">
+            Ваше сообщение уйдет напрямую админу. Никто, кроме него, не увидит ваш текст и данные.
+        </p>
+        
+        <form action=https://formspree.io/f/xojnzeqe method="POST">
+            <label style="font-size: 0.8rem;">Кто вы? (Можно оставить "Аноним")</label>
+            <input type="text" name="nickname" value="Аноним" required>
             
-            <form action="https://formspree.io/f/sample" method="POST">
-                <input type="text" name="subject" placeholder="Тема (Сплетня / Пара / История)" required>
-                <textarea name="message" rows="6" placeholder="Ваша история во всех деталях..." required></textarea>
-                <button type="submit" class="btn-send">ОТПРАВИТЬ АНОНИМНО</button>
-            </form>
-        </div>
+            <label style="font-size: 0.8rem;">Тип новости</label>
+            <select name="type" style="width: 100%; background: #25252d; border: 1px solid #444; color: white; padding: 12px; margin: 10px 0; border-radius: 8px;">
+                <option value="spletni">Сплетня / История</option>
+                <option value="couples">Про пары</option>
+                <option value="admin-msg">Просто вопрос админу</option>
+            </select>
+
+            <label style="font-size: 0.8rem;">Текст сообщения</label>
+            <textarea name="message" rows="6" placeholder="Пиши всё как есть, не стесняйся..." required></textarea>
+            
+            <input type="hidden" name="_subject" value="Новая сплетня с сайта!">
+            
+            <button type="submit" class="btn-send">ОТПРАВИТЬ АДМИНУ</button>
+        </form>
     </div>
+</div>
 
 </div>
 
@@ -186,10 +199,4 @@
 </script>
 
 </body>
-
 </html>
-
-
-
-
-
